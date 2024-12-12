@@ -21,4 +21,14 @@
     <p>test</p>
   </div>
 </template>
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import Worker1 from '@/workers/worker1.ts?worker&inline'
+if(window.Worker){
+  console.log('The browser is compatibly with Web Worker API');
+  const worker1 = new Worker1();
+  worker1.postMessage("Sample message from the main thread");
+  worker1.onmessage = (e: MessageEvent) => {
+    console.log('Received message from the worker: ', e.data);
+  }
+}
+</script>
